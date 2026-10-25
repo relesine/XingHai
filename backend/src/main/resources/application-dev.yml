@@ -1,0 +1,42 @@
+# ============================================================
+# 开发环境配置（默认激活）
+# 本地 MySQL / Redis 使用学习环境默认值，可按需通过环境变量覆盖
+# ============================================================
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/xinghai?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-test-query: SELECT 1
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    database: 0
+    password: ${REDIS_PASSWORD:}
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 4
+        min-idle: 1
+
+mybatis-plus:
+  configuration:
+    # 开发环境打印 SQL，便于排查
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+xinghai:
+  upload:
+    # 与历史数据保持一致，指向项目根目录下的 uploads
+    base-dir: ${UPLOAD_DIR:F:/AI_full-stack_project/XingHai/uploads}
+
+logging:
+  level:
+    com.xinghai: debug

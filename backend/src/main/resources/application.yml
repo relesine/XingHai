@@ -1,0 +1,99 @@
+# ============================================================
+# XingHai 星海视频社交平台 · 后端公共配置
+# 环境相关配置（数据源/Redis/上传目录/日志级别）见：
+#   application-dev.yml   本地开发
+#   application-prod.yml  生产部署
+# 通过 SPRING_PROFILES_ACTIVE 切换，默认 dev
+# ============================================================
+server:
+  port: ${SERVER_PORT:8080}
+  tomcat:
+    uri-encoding: UTF-8
+  # 优雅停机：等待处理中的请求完成后再关闭
+  shutdown: graceful
+  error:
+    include-message: never
+    include-stacktrace: never
+
+spring:
+  application:
+    name: xinghai-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  # 上传大小限制（视频较大）
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 600MB
+  # 访问不存在的接口时抛出异常，交给全局异常处理器返回 404
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: true
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+
+# ---------- MyBatis Plus ----------
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 默认关闭 SQL 打印，开发环境在 application-dev.yml 打开
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# ---------- 项目自定义配置 ----------
+xinghai:
+  jwt:
+    # 生产环境必须通过环境变量注入，长度不少于 32 字节
+    secret: ${JWT_SECRET:XingHai-Secret-Key-2026-Doubao-FullStack-Project-For-Learning}
+    expire: ${JWT_EXPIRE:604800000}
+    header: Authorization
+    prefix: "Bearer "
+  upload:
+    base-dir: ${UPLOAD_DIR:./uploads}
+    video-ext: mp4,mov,mkv,webm,avi
+    # 出于安全已移除 svg（svg 可内嵌脚本，易形成存储型 XSS）
+    image-ext: jpg,jpeg,png,gif,webp
+  cors:
+    # 逗号分隔的允许来源列表；生产环境通过 CORS_ORIGINS 覆盖为正式域名
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:5174,http://localhost:5175}
+  rate-limit:
+    login-limit: 10
+    login-window: 60
+    register-limit: 5
+    register-window: 300
+
+# ---------- 健康检查（Actuator） ----------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: xinghai-backend
+    version: 1.0.0
+
+logging:
+  level:
+    root: info
+    com.xinghai: info

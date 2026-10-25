@@ -1,0 +1,38 @@
+# ---------- 依赖与构建产物 ----------
+node_modules/
+dist/
+target/
+*.class
+*.jar
+*.war
+
+# ---------- 日志与临时文件 ----------
+logs/
+*.log
+*.log.*
+*.tmp
+*.bak
+
+# ---------- 上传文件（本地运行产物，不入库） ----------
+uploads/
+
+# ---------- 环境变量与密钥 ----------
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ---------- IDE ----------
+.idea/
+*.iml
+.vscode/
+!.vscode/extensions.json
+
+# ---------- 操作系统 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- 覆盖率报告 ----------
+coverage/
+*.lcov

@@ -1,0 +1,74 @@
+# ============================================================
+# XingHai 后端与基础服务编排（生产/预发环境使用）
+# 启动：docker compose up -d --build
+# 三个前端为静态站点，建议构建后由 Nginx 托管并反向代理 /api、/upload
+# ============================================================
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: xinghai-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?please set DB_PASSWORD}
+      MYSQL_DATABASE: xinghai
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: xinghai-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: xinghai-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://mysql:3306/xinghai?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:?please set JWT_SECRET}
+      UPLOAD_DIR: /data/xinghai/uploads
+      LOG_DIR: /app/logs
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
+    ports:
+      - "8080:8080"
+    volumes:
+      - upload-data:/data/xinghai/uploads
+      - backend-logs:/app/logs
+
+volumes:
+  mysql-data:
+  redis-data:
+  upload-data:
+  backend-logs:

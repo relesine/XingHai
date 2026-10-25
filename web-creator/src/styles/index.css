@@ -1,0 +1,150 @@
+:root {
+  --primary: #fb7299;
+  --primary-hover: #e95b84;
+  --primary-light: #fff1f5;
+  --success: #00b42a;
+  --warning: #ff7d00;
+  --danger: #f53f3f;
+  --text-1: #18191c;
+  --text-2: #4e5969;
+  --text-3: #86909c;
+  --text-4: #c9cdd4;
+  --border: #e3e5e7;
+  --border-light: #f1f2f3;
+  --bg: #f7f8fa;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --sidebar-width: 224px;
+  --header-height: 56px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #app { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  color: var(--text-1);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); text-decoration: none; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #d7dbe0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #c2c8cf; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Element Plus 主题变量映射 */
+:root {
+  --el-color-primary: #fb7299;
+  --el-color-primary-light-3: #fc9ab8;
+  --el-color-primary-light-5: #fdc1d2;
+  --el-color-primary-light-7: #fee3eb;
+  --el-color-primary-light-8: #feeef3;
+  --el-color-primary-light-9: #fff5f8;
+  --el-color-primary-dark-2: #e05d84;
+  --el-color-success: #00b42a;
+  --el-color-warning: #ff7d00;
+  --el-color-danger: #f53f3f;
+  --el-color-info: #86909c;
+  --el-border-radius-base: 6px;
+  --el-border-radius-small: 4px;
+  --el-border-color: #e3e5e7;
+  --el-border-color-light: #f1f2f3;
+  --el-text-color-primary: #18191c;
+  --el-text-color-regular: #4e5969;
+  --el-fill-color-light: #f7f8fa;
+  --el-font-size-base: 14px;
+}
+
+/* 通用布局 */
+.page-card {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.page-card + .page-card { margin-top: 16px; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.toolbar-end { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.pager { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+.muted { color: var(--text-3); font-size: 13px; }
+
+/* 按钮 */
+.el-button {
+  font-weight: 400;
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+.el-button--small { height: 28px; padding: 0 10px; font-size: 13px; }
+.el-button.is-text { font-weight: 400; }
+
+/* 表单 */
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  box-shadow: 0 0 0 1px var(--border) inset;
+  border-radius: var(--radius);
+}
+.el-input__wrapper:hover,
+.el-select__wrapper:hover { box-shadow: 0 0 0 1px #c9cdd4 inset; }
+.el-input__wrapper.is-focus,
+.el-select__wrapper.is-focused { box-shadow: 0 0 0 1px var(--primary) inset; }
+.el-form-item { margin-bottom: 18px; }
+.el-form-item__label { color: var(--text-2); font-weight: 400; }
+
+/* 表格 */
+.el-table {
+  --el-table-border-color: var(--border-light);
+  --el-table-header-bg-color: #f7f8fa;
+  --el-table-header-text-color: #4e5969;
+  --el-table-row-hover-bg-color: #fafbfc;
+  --el-table-text-color: #18191c;
+  font-size: 13px;
+}
+.el-table th.el-table__cell {
+  font-weight: 500;
+  background: #f7f8fa !important;
+  border-bottom: 1px solid var(--border);
+}
+.el-table td.el-table__cell { border-bottom: 1px solid var(--border-light); padding: 10px 0; }
+.el-table .cell { line-height: 1.5; }
+.el-table__empty-text { color: var(--text-3); font-size: 13px; }
+
+/* 标签 */
+.el-tag { border-radius: 4px; font-weight: 400; border: 1px solid transparent; }
+
+/* 弹窗 */
+.el-dialog { border-radius: var(--radius-lg); padding: 0; }
+.el-dialog__header {
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.el-dialog__title { font-size: 15px; font-weight: 600; }
+.el-dialog__body { padding: 20px; }
+.el-dialog__footer { padding: 12px 20px 16px; border-top: 1px solid var(--border-light); }
+.el-dialog__headerbtn { top: 12px; }
+
+/* 分页 */
+.el-pagination { --el-pagination-button-bg-color: #fff; font-weight: 400; }
+.el-pagination.is-background .el-pager li { border-radius: 4px; background: #fff; border: 1px solid var(--border); }
+.el-pagination.is-background .el-pager li.is-active { background: var(--primary); border-color: var(--primary); }
+
+/* 其他 */
+.el-dropdown-menu__item { font-size: 13px; }
+.el-message { border-radius: var(--radius); border: 1px solid var(--border-light); }
+.el-loading-mask { background: rgba(255, 255, 255, .75); }

@@ -1,0 +1,44 @@
+# ============================================================
+# 生产环境配置
+# 所有敏感项（数据库、Redis、JWT 密钥、上传目录、跨域来源）必须由环境变量注入
+# ============================================================
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-timeout: 10000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT:6379}
+    database: ${REDIS_DATABASE:0}
+    password: ${REDIS_PASSWORD}
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 16
+        max-idle: 8
+        min-idle: 2
+
+xinghai:
+  jwt:
+    # 生产环境不提供默认值：未配置时应用启动失败，避免弱密钥上线
+    secret: ${JWT_SECRET}
+    expire: ${JWT_EXPIRE:604800000}
+  upload:
+    base-dir: ${UPLOAD_DIR:/data/xinghai/uploads}
+  cors:
+    allowed-origins: ${CORS_ORIGINS}
+
+logging:
+  file:
+    path: ${LOG_DIR:./logs}
+  level:
+    com.xinghai: info
